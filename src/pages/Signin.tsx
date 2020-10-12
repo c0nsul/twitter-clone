@@ -1,9 +1,24 @@
 import React from 'react';
-import {Button, makeStyles, Typography} from "@material-ui/core";
+import {Button, FormControl, makeStyles, Typography} from "@material-ui/core";
 import TwitterIcon from "@material-ui/icons/Twitter";
 import SearchIcon from "@material-ui/icons/Search";
 import PeopleOutlineIcon from "@material-ui/icons/PeopleOutlined";
 import MessageIcon from "@material-ui/icons/MessageOutlined";
+import {
+    DialogTitle,
+    DialogContent,
+    DialogContentText,
+    DialogActions,
+    Dialog,
+    TextField,
+    IconButton,
+    FormGroup,
+} from "@material-ui/core";
+import CloseIcon from "@material-ui/icons/CloseOutlined";
+import {TextFields} from "@material-ui/icons";
+
+
+
 
 const useStyles = makeStyles((theme) => ({
     wrapper: {
@@ -97,6 +112,13 @@ const useStyles = makeStyles((theme) => ({
 
 function SignIn() {
     const classes = useStyles();
+    const [open, setOpen] = React.useState(false)
+    const handleClickOpen = () => {
+        setOpen(true)
+    }
+    const handleClose = () => {
+        setOpen(false)
+    }
 
     return (
         <div className={classes.wrapper}>
@@ -130,11 +152,58 @@ function SignIn() {
                     <Button style={{marginBottom: 10}} variant="contained" color="primary" fullWidth>
                         Sign up
                     </Button>
-                    <Button variant="outlined" color="primary" fullWidth>
+                    <Button onClick={handleClickOpen} variant="outlined" color="primary" fullWidth>
                         Login
                     </Button>
                 </div>
             </section>
+
+
+            <Dialog open={open} onClose={handleClose}>
+                <DialogTitle id="form-dialog-title">
+                    <IconButton
+                        onClick={handleClose}
+                        color="secondary"
+                        aria-label="close"
+                    >
+                         <CloseIcon
+                             style={{ fontSize: 26 }} color="primary"
+                         />
+
+                    </IconButton>
+                    <Typography variant="h6"gutterBottom>
+                        Log in to Twitter
+                    </Typography>
+                </DialogTitle>
+                <DialogContent>
+                    <FormControl component="fieldset" fullWidth>
+                        <FormGroup aria-label="position" row>
+                            <TextField
+                                autoFocus
+                                margin = 'dense'
+                                id="email"
+                                label="E-mail"
+                                type="email"
+                                fullWidth
+                            />
+                            <TextField
+                                margin = 'dense'
+                                id="password"
+                                label="Password"
+                                type="password"
+                                fullWidth
+                            />
+                        </FormGroup>
+                    </FormControl>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleClose} color="primary">
+                        Cancel
+                    </Button>
+                    <Button variant="contained">Login</Button>
+                </DialogActions>
+            </Dialog>
+
         </div>
     );
 }
