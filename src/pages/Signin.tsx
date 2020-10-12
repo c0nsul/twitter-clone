@@ -8,24 +8,58 @@ import MessageIcon from "@material-ui/icons/MessageOutlined";
 const useStyles = makeStyles((theme) => ({
     wrapper: {
         display: "flex",
-        height: "100vh",
+        height: '100vh',
     },
-    lightBulb: {
-        verticalAlign: "middle",
-        marginRight: theme.spacing(1),
+    blueSide:{
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        background: "#71c9f8",
+        flex: "0 0 50%",
+        overflow: 'hidden',
+        position: 'relative'
     },
+    blueSideBigIcon:{
+        position: 'absolute',
+        left:'60%',
+        top:'47%',
+        transform: 'translate(-50%,-50%)',
+        width: '250%',
+        height: '250%',
+    },
+    blueSideListInfo: {
+        position: 'relative',
+        listStyle:'none',
+        margin: 0,
+        padding: 0,
+        width: 380,
+        '& h6': {
+            display: "flex",
+            alignItems: "center",
+            color: "white",
+            fontWeight: 700,
+            fontSize: 20,
+        },
+    },
+    blueSideListInfoItem: {
+        marginBottom: 40,
+    },
+    blueSideListInfoIcon: {
+        marginRight: 15,
+        fontSize:32,
+    },
+
     loginBlock: {
         flex: "0 0 50%",
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
     },
-
     button: {
         fontWeight: 700,
     },
     descriptionBlock: {
-        background: "#1DA1F2",
+        background: "#71c9f8",
         flex: "0 0 50%",
         display: "flex",
         alignItems: "center",
@@ -66,22 +100,23 @@ function SignIn() {
 
     return (
         <div className={classes.wrapper}>
-            <section className={classes.descriptionBlock}>
-                <ul className={classes.descriptionBlockListInfo}>
-                    <li>
+            <section className={classes.blueSide}>
+                <TwitterIcon color="primary" className={classes.blueSideBigIcon}/>
+                <ul className={classes.blueSideListInfo}>
+                    <li className={classes.blueSideListInfoItem}>
                         <Typography variant="h6" >
-                            <SearchIcon/>
+                            <SearchIcon className={classes.blueSideListInfoIcon} />
                             Follow your interests.
                         </Typography>
                     </li>
-                    <li>
+                    <li className={classes.blueSideListInfoItem}>
                         <Typography variant="h6" >
-                            <PeopleOutlineIcon/>
-                            Hear what people are talking about</Typography>
+                            <PeopleOutlineIcon className={classes.blueSideListInfoIcon} />
+                            Hear what people are talking about.</Typography>
                     </li>
-                    <li>
+                    <li className={classes.blueSideListInfoItem}>
                         <Typography variant="h6" >
-                            <MessageIcon/>
+                            <MessageIcon className={classes.blueSideListInfoIcon} />
                             Join the conversation.</Typography>
                     </li>
                 </ul>
