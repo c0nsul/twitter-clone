@@ -1,31 +1,23 @@
 import React from 'react';
-import {Button, FormControl, makeStyles, Typography} from "@material-ui/core";
+import {
+    Button, FormControl, FormGroup,
+    makeStyles, TextField,
+    Typography
+} from "@material-ui/core";
 import TwitterIcon from "@material-ui/icons/Twitter";
 import SearchIcon from "@material-ui/icons/Search";
 import PeopleOutlineIcon from "@material-ui/icons/PeopleOutlined";
 import MessageIcon from "@material-ui/icons/MessageOutlined";
-import {
-    DialogTitle,
-    DialogContent,
-    DialogContentText,
-    DialogActions,
-    Dialog,
-    TextField,
-    IconButton,
-    FormGroup,
-} from "@material-ui/core";
-import CloseIcon from "@material-ui/icons/CloseOutlined";
-import {TextFields} from "@material-ui/icons";
+import {ModalBlock} from "../components/modalBlock";
+import theme from "../theme";
 
 
-
-
-const useStyles = makeStyles((theme) => ({
+export const useStylesSignIn = makeStyles(() => ({
     wrapper: {
         display: "flex",
         height: '100vh',
     },
-    blueSide:{
+    blueSide: {
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
@@ -34,17 +26,17 @@ const useStyles = makeStyles((theme) => ({
         overflow: 'hidden',
         position: 'relative'
     },
-    blueSideBigIcon:{
+    blueSideBigIcon: {
         position: 'absolute',
-        left:'60%',
-        top:'47%',
+        left: '60%',
+        top: '47%',
         transform: 'translate(-50%,-50%)',
         width: '250%',
         height: '250%',
     },
     blueSideListInfo: {
         position: 'relative',
-        listStyle:'none',
+        listStyle: 'none',
         margin: 0,
         padding: 0,
         width: 380,
@@ -61,7 +53,7 @@ const useStyles = makeStyles((theme) => ({
     },
     blueSideListInfoIcon: {
         marginRight: 15,
-        fontSize:32,
+        fontSize: 32,
     },
 
     loginBlock: {
@@ -95,7 +87,6 @@ const useStyles = makeStyles((theme) => ({
             marginBottom: 20,
         },
     },
-
     loginBlockIcon: {
         fontSize: 40,
     },
@@ -108,17 +99,34 @@ const useStyles = makeStyles((theme) => ({
         marginBottom: "40px",
         marginTop: "10px",
     },
+    loginSideField: {
+        marginBottom: "18px",
+
+    },
+    registerField: {
+        marginBottom: theme.spacing(3),
+    },
+    loginFormControl: {
+        marginBottom:  theme.spacing(2),
+    },
 }));
 
 function SignIn() {
-    const classes = useStyles();
-    const [open, setOpen] = React.useState(false)
-    const handleClickOpen = () => {
-        setOpen(true)
-    }
-    const handleClose = () => {
-        setOpen(false)
-    }
+    const classes = useStylesSignIn();
+    const [visibleModal, setVisibleModal] = React.useState<'login' | 'signUp'>();
+
+    const handleClickOpenSignIn = (): void => {
+        setVisibleModal('login');
+    };
+
+    const handleClickOpenSignUp = (): void => {
+        setVisibleModal("signUp");
+    };
+
+    const handleCloseModal = (): void => {
+        setVisibleModal(undefined);
+    };
+
 
     return (
         <div className={classes.wrapper}>
@@ -126,19 +134,19 @@ function SignIn() {
                 <TwitterIcon color="primary" className={classes.blueSideBigIcon}/>
                 <ul className={classes.blueSideListInfo}>
                     <li className={classes.blueSideListInfoItem}>
-                        <Typography variant="h6" >
-                            <SearchIcon className={classes.blueSideListInfoIcon} />
+                        <Typography variant="h6">
+                            <SearchIcon className={classes.blueSideListInfoIcon}/>
                             Follow your interests.
                         </Typography>
                     </li>
                     <li className={classes.blueSideListInfoItem}>
-                        <Typography variant="h6" >
-                            <PeopleOutlineIcon className={classes.blueSideListInfoIcon} />
+                        <Typography variant="h6">
+                            <PeopleOutlineIcon className={classes.blueSideListInfoIcon}/>
                             Hear what people are talking about.</Typography>
                     </li>
                     <li className={classes.blueSideListInfoItem}>
-                        <Typography variant="h6" >
-                            <MessageIcon className={classes.blueSideListInfoIcon} />
+                        <Typography variant="h6">
+                            <MessageIcon className={classes.blueSideListInfoIcon}/>
                             Join the conversation.</Typography>
                     </li>
                 </ul>
@@ -147,63 +155,89 @@ function SignIn() {
             <section className={classes.loginBlock}>
                 <div className={classes.loginBlockWrapper}>
                     <TwitterIcon color="primary" className={classes.loginBlockIcon}/>
-                    <Typography variant="h4" className={classes.loginBlockTitle}  gutterBottom> See what’s happening in the world right now</Typography>
+                    <Typography variant="h4" className={classes.loginBlockTitle} gutterBottom> See what’s happening in
+                        the world right now</Typography>
                     <Typography> <b>Join Twitter today.</b></Typography><br/>
-                    <Button style={{marginBottom: 10}} variant="contained" color="primary" fullWidth>
+                    <Button onClick={handleClickOpenSignUp} style={{marginBottom: 10}} variant="contained" color="primary" fullWidth>
                         Sign up
                     </Button>
-                    <Button onClick={handleClickOpen} variant="outlined" color="primary" fullWidth>
+                    <Button onClick={handleClickOpenSignIn} variant="outlined" color="primary" fullWidth>
                         Login
                     </Button>
+
+                    <ModalBlock
+                        visible={visibleModal === 'login'}
+                        onClose={handleCloseModal}
+                        title="Log in to Twitter"
+                        classes={classes}
+                    >
+                        <FormControl className={classes.loginFormControl} component="fieldset" fullWidth>
+                            <FormGroup aria-label="position" row>
+                                <TextField
+                                    autoFocus
+                                    className={classes.loginSideField}
+                                    margin='dense'
+                                    id="email"
+                                    label="E-mail"
+                                    type="email"
+                                    fullWidth
+                                />
+                                <TextField
+                                    className={classes.loginSideField}
+                                    margin='dense'
+                                    id="password"
+                                    label="Password"
+                                    type="password"
+                                    fullWidth
+                                />
+                            </FormGroup>
+                            <Button color="primary" variant="contained" fullWidth>Login</Button>
+                        </FormControl>
+                    </ModalBlock>
+
+
+                    <ModalBlock
+                        visible={visibleModal === 'signUp'}
+                        onClose={handleCloseModal}
+                        title="Create your account"
+                        classes={classes}
+                    >
+                        <FormControl className={classes.loginFormControl} component="fieldset" fullWidth>
+                            <FormGroup aria-label="position" row>
+                                <TextField
+                                    autoFocus
+                                    className={classes.registerField}
+                                    margin='dense'
+                                    id="name"
+                                    label="Name"
+                                    type="text"
+                                    fullWidth
+                                />
+                                <TextField
+                                    className={classes.registerField}
+                                    margin='dense'
+                                    id="email"
+                                    label="E-mail"
+                                    type="email"
+                                    fullWidth
+                                />
+
+                                <TextField
+                                    margin="dense"
+                                    id="password"
+                                    label="Password"
+                                    type="password"
+                                    variant="filled"
+                                    className={classes.registerField}
+                                    fullWidth
+                                />
+                            </FormGroup>
+                            <Button color="primary" variant="contained" fullWidth>Next</Button>
+                        </FormControl>
+                    </ModalBlock>
+
                 </div>
             </section>
-
-
-            <Dialog open={open} onClose={handleClose}>
-                <DialogTitle id="form-dialog-title">
-                    <IconButton
-                        onClick={handleClose}
-                        color="secondary"
-                        aria-label="close"
-                    >
-                         <CloseIcon
-                             style={{ fontSize: 26 }} color="primary"
-                         />
-
-                    </IconButton>
-                    <Typography variant="h6"gutterBottom>
-                        Log in to Twitter
-                    </Typography>
-                </DialogTitle>
-                <DialogContent>
-                    <FormControl component="fieldset" fullWidth>
-                        <FormGroup aria-label="position" row>
-                            <TextField
-                                autoFocus
-                                margin = 'dense'
-                                id="email"
-                                label="E-mail"
-                                type="email"
-                                fullWidth
-                            />
-                            <TextField
-                                margin = 'dense'
-                                id="password"
-                                label="Password"
-                                type="password"
-                                fullWidth
-                            />
-                        </FormGroup>
-                    </FormControl>
-                </DialogContent>
-                <DialogActions>
-                    <Button onClick={handleClose} color="primary">
-                        Cancel
-                    </Button>
-                    <Button variant="contained">Login</Button>
-                </DialogActions>
-            </Dialog>
-
         </div>
     );
 }
