@@ -127,7 +127,6 @@ export const SignIn:React.FC = ():React.ReactElement => {
         setVisibleModal(undefined);
     };
 
-
     return (
         <div className={classes.wrapper}>
             <section className={classes.blueSide}>
@@ -241,5 +240,3 @@ export const SignIn:React.FC = ():React.ReactElement => {
         </div>
     );
 }
-
-
